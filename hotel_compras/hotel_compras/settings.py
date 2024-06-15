@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-k$z6f8177^kt8zs&y!!+uo_z5a$a4kg)_528vvxwz+g4^f1-bi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = []
 
 
@@ -51,6 +52,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'hotel_compras.urls'
+
+LOGIN_REDIRECT_URL = '/crear/'  # O la URL que quieras que sea la página de inicio después del login
+LOGOUT_REDIRECT_URL = '/login/'  # Redirigir al login después del logout
+
 
 TEMPLATES = [
     {

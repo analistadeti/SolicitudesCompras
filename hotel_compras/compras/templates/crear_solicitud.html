@@ -7,6 +7,8 @@
     <title>Crear Solicitud de Compra</title>
 </head>
 <body>
+    <a href="{% url 'logout' %}">Cerrar Sesión</a>
+
     <h1>Crear Solicitud de Compra</h1>
     <form method="post">
         {% csrf_token %}
