@@ -11,5 +11,8 @@ urlpatterns = [
     path('<int:solicitud_id>/', views.detalle_solicitud, name='detalle_solicitud'),
     path('<int:solicitud_id>/eliminar/', views.eliminar_solicitud, name='eliminar_solicitud'),
     path('lista/', views.lista_solicitudes, name='lista_solicitudes'),
+    path('crear_usuario/', views.crear_usuario, name='crear_usuario'),
+    path('crear_departamento/', views.crear_departamento, name='crear_departamento'),
+    path('departamentos/', views.lista_departamentos, name='lista_departamentos'),
     # Otras URLs necesarias
 ]

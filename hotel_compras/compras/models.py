@@ -6,6 +6,7 @@ class SolicitudCompra(models.Model):
     solicitante = models.ForeignKey(User, on_delete=models.CASCADE)
     descripcion = models.TextField()
     estado = models.CharField(max_length=100, default='Solicitado')
+    departamento = models.ForeignKey('Departamento', on_delete=models.SET_NULL, null=True, blank=True)  # Nuevo campo
 
     def __str__(self):
         return f'Solicitud de compra #{self.id}'
@@ -19,4 +20,16 @@ class EstadoCompra(models.Model):
     def __str__(self):
         return f'{self.estado} - {self.solicitud}'
 
-# Create your models here.
+class Departamento(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    departamento = models.ForeignKey(Departamento, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
