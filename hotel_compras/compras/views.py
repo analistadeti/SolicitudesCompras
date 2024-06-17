@@ -125,3 +125,4 @@ def lista_departamentos(request):
         departamento_solicitudes[departamento] = solicitudes
 
     return render(request, 'lista_departamentos.html', {'departamento_solicitudes': departamento_solicitudes})
+

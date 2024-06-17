@@ -54,8 +54,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'hotel_compras.urls'
 
 LOGIN_REDIRECT_URL = '/crear/'  # O la URL que quieras que sea la página de inicio después del login
-LOGOUT_REDIRECT_URL = '/login/'  # Redirigir al login después del logout
-
+LOGOUT_REDIRECT_URL = '/login/'
 
 TEMPLATES = [
     {
