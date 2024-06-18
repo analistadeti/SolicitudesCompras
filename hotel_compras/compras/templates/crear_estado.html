@@ -1,16 +1,20 @@
+<!-- compras/templates/compras/crear_estado.html -->
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Estados</title>
+    <title>Crear Estado</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Lista de Estados</h1>
-    <a href="{% url 'crear_estado' %}">Crear nuevo estado</a>
-    <ul>
-        {% for estado in estados %}
-            <li>{{ estado.estado }} - <a href="{% url 'actualizar_estado' estado.id %}">Editar</a> - <a href="{% url 'eliminar_estado' estado.id %}">Eliminar</a></li>
-        {% endfor %}
-    </ul>
+    <h1>Crear Estado</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
 </body>
 </html>
+
+

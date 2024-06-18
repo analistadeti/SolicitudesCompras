@@ -16,8 +16,11 @@ urlpatterns = [
     path('crear_usuario/', views.crear_usuario, name='crear_usuario'),
     path('crear_departamento/', views.crear_departamento, name='crear_departamento'),
     path('departamentos/', views.lista_departamentos, name='lista_departamentos'),
+    path('estados/', views.lista_estados, name='lista_estados'),
+    path('estados/crear/', views.crear_estado, name='crear_estado'),
+    path('estados/<int:estado_id>/actualizar/', views.actualizar_estado, name='actualizar_estado'),
+    path('estados/<int:estado_id>/eliminar/', views.eliminar_estado, name='eliminar_estado'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('', auth_views.LoginView.as_view(template_name='login.html')),  # Redirigir la raíz al login
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    # Otras URLs necesarias
 ]

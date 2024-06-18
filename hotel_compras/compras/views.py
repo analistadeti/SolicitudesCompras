@@ -3,7 +3,7 @@ from .models import SolicitudCompra, EstadoCompra,Profile,Departamento
 from .forms import SolicitudCompraForm, EstadoCompraForm ,DepartamentoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm,ActualizarSolicitudForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -36,10 +36,9 @@ def crear_solicitud(request):
         if form.is_valid():
             solicitud = form.save(commit=False)
             solicitud.solicitante = request.user
-            solicitud.departamento = request.user.profile.departamento  # Asignar departamento
+            solicitud.departamento = request.user.profile.departamento
+            solicitud.estado = 'Solicitado'  # Establecer estado por defecto
             solicitud.save()
-            # Crear el primer estado de la solicitud (ej. Solicitado)
-            EstadoCompra.objects.create(solicitud=solicitud, estado='Solicitado', actualizado_por=request.user)
             return redirect('lista_solicitudes')
     else:
         form = SolicitudCompraForm()
@@ -51,21 +50,15 @@ def actualizar_solicitud(request, solicitud_id):
     solicitud = get_object_or_404(SolicitudCompra, pk=solicitud_id)
     
     if request.method == 'POST':
-        form = EstadoCompraForm(request.POST)
+        form = ActualizarSolicitudForm(request.POST, instance=solicitud)
         if form.is_valid():
-            estado_nuevo = form.save(commit=False)
-            estado_nuevo.solicitud = solicitud
-            estado_nuevo.actualizado_por = request.user
-            estado_nuevo.save()
-            # Actualizar el estado en la solicitud principal también (opcional)
-            solicitud.estado = estado_nuevo.estado
-            solicitud.save()
+            form.save()
+            messages.success(request, 'Solicitud actualizada exitosamente.')
             return redirect('detalle_solicitud', solicitud_id=solicitud.id)
     else:
-        form = EstadoCompraForm()
+        form = ActualizarSolicitudForm(instance=solicitud)
     
     return render(request, 'actualizar_solicitud.html', {'form': form, 'solicitud': solicitud})
-
 # En compras/views.py
 
 
@@ -126,3 +119,44 @@ def lista_departamentos(request):
 
     return render(request, 'lista_departamentos.html', {'departamento_solicitudes': departamento_solicitudes})
 
+@login_required
+def lista_estados(request):
+    estados = EstadoCompra.objects.all()
+    return render(request, 'lista_estados.html', {'estados': estados})
+
+@login_required
+def crear_estado(request):
+    if request.method == 'POST':
+        form = EstadoCompraForm(request.POST)
+        if form.is_valid():
+            estado = form.save(commit=False)
+            estado.actualizado_por = request.user
+            estado.save()
+            messages.success(request, 'Estado creado exitosamente.')
+            return redirect('lista_estados')
+    else:
+        form = EstadoCompraForm()
+    return render(request, 'crear_estado.html', {'form': form})
+
+
+@login_required
+def actualizar_estado(request, estado_id):
+    estado = get_object_or_404(EstadoCompra, pk=estado_id)
+    if request.method == 'POST':
+        form = EstadoCompraForm(request.POST, instance=estado)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Estado actualizado exitosamente.')
+            return redirect('lista_estados')
+    else:
+        form = EstadoCompraForm(instance=estado)
+    return render(request, 'actualizar_estado.html', {'form': form})
+
+@login_required
+def eliminar_estado(request, estado_id):
+    estado = get_object_or_404(EstadoCompra, pk=estado_id)
+    if request.method == 'POST':
+        estado.delete()
+        messages.success(request, 'Estado eliminado exitosamente.')
+        return redirect('lista_estados')
+    return render(request, 'eliminar_estado.html', {'estado': estado})

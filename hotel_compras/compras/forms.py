@@ -9,10 +9,20 @@ class SolicitudCompraForm(forms.ModelForm):
         model = SolicitudCompra
         fields = ['descripcion']
 
+
+
 class EstadoCompraForm(forms.ModelForm):
     class Meta:
         model = EstadoCompra
         fields = ['estado']
+
+class ActualizarSolicitudForm(forms.ModelForm):
+    estado = forms.ModelChoiceField(queryset=EstadoCompra.objects.all(), empty_label="Seleccione un estado")
+
+    class Meta:
+        model = SolicitudCompra
+        fields = ['descripcion', 'estado']
+
 
 
 

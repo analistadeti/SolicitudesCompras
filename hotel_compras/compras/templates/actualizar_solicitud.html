@@ -1,19 +1,23 @@
-<!-- templates/compras/actualizar_solicitud.html -->
+<!-- compras/templates/compras/actualizar_solicitud.html -->
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Actualizar Solicitud de Compra</title>
+    <title>Actualizar Solicitud</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Actualizar Solicitud de Compra</h1>
+    <h1>Actualizar Solicitud</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Actualizar</button>
+        <button type="submit">Guardar</button>
     </form>
 </body>
 </html>
+
+
 
 
 
